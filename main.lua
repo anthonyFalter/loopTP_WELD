@@ -121,7 +121,7 @@ local function loopTeleportToPlayersInTeams()
 
                         local targetPart = player.Character.PrimaryPart
                         -- Adjust the offset to place the player a bit to the left (e.g., -3 on the X axis)
-                        local offset = CFrame.new(-2, -1, 2)  -- Change -3 to a value that suits your needs
+                        local offset = CFrame.new(-1, -1, 2)  -- Change -3 to a value that suits your needs
 
                         primaryPart.CFrame = targetPart.CFrame * offset
 
