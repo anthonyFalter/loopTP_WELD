@@ -114,7 +114,7 @@ local function loopTeleportToPlayersInTeams()
 					end
 
 					local targetPart = player.Character.PrimaryPart
-					local offset = CFrame.new(1, 0, 2)
+					local offset = CFrame.new(-1, -1, 2)
 					primaryPart.CFrame = targetPart.CFrame * offset
 
 					currentWeld = Instance.new("WeldConstraint")
