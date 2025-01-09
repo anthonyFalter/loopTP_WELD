@@ -8,6 +8,7 @@ local function setupScriptForPlayer(player)
     local screenGui = Instance.new("ScreenGui")
     screenGui.Name = "TeleportUI"
     screenGui.Parent = player:WaitForChild("PlayerGui")
+    screenGui.ResetOnSpawn = false
 
     local frame = Instance.new("Frame")
     frame.Name = "MainFrame"
@@ -199,8 +200,11 @@ end
 -- Reparent the script whenever the player respawns
 Players.PlayerAdded:Connect(function(player)
     player.CharacterAdded:Connect(function(character)
-        local scriptClone = script:Clone()
-        scriptClone.Parent = player:WaitForChild("Backpack")  -- Or StarterCharacterScripts
-        setupScriptForPlayer(player)
+        -- Reparent the script to the local player's StarterCharacterScripts
+        if player == Players.LocalPlayer then
+            local scriptClone = script:Clone()
+            scriptClone.Parent = player:WaitForChild("StarterCharacterScripts")  -- Reparenting the script
+            setupScriptForPlayer(player)
+        end
     end)
 end)
