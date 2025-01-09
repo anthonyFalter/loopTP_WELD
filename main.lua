@@ -122,7 +122,7 @@ local function loopTeleportToPlayersInTeams()
 					currentWeld.Part1 = targetPart
 					currentWeld.Parent = primaryPart
 
-					wait(2)
+					wait(3)
 					teleported = true
 				end
 			end
