@@ -3,6 +3,7 @@ local Teams = game:GetService("Teams")
 local UserInputService = game:GetService("UserInputService")
 
 local teleportEnabled = true
+local checklistFrame -- Declare this variable outside so it can be accessed globally
 
 local function createUI()
     local screenGui = Instance.new("ScreenGui")
@@ -66,7 +67,7 @@ local function createUI()
     teleportButton.BorderSizePixel = 0
     teleportButton.Parent = frame
 
-    local checklistFrame = Instance.new("Frame")
+    checklistFrame = Instance.new("Frame") -- Initialize checklistFrame here so it's accessible globally
     checklistFrame.Name = "Checklist"
     checklistFrame.Size = UDim2.new(1, 0, 1, -50)
     checklistFrame.Position = UDim2.new(0, 0, 0, 50)
@@ -199,9 +200,6 @@ end
 
 -- Recreate UI on respawn/reset
 Players.LocalPlayer.CharacterAdded:Connect(function()
-	Players = game:GetService("Players")
-	Teams = game:GetService("Teams")
-	UserInputService = game:GetService("UserInputService")
     teleportButton:Destroy()
     teleportButton = createUI()
 end)
