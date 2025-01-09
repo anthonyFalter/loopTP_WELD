@@ -94,47 +94,58 @@ local function getCheckedTeams()
 end
 
 local teleportEnabled = true
+
+--TARGET
 local function loopTeleportToPlayersInTeams()
-	local localPlayer = Players.LocalPlayer
-	if not localPlayer.Character or not localPlayer.Character.PrimaryPart then return end
+    local localPlayer = Players.LocalPlayer
+    if not localPlayer.Character or not localPlayer.Character.PrimaryPart then return end
 
-	local checkedTeams = getCheckedTeams()
-	local primaryPart = localPlayer.Character.PrimaryPart
-	local currentWeld = nil
+    local checkedTeams = getCheckedTeams()
+    local primaryPart = localPlayer.Character.PrimaryPart
+    local currentWeld = nil
 
-	while teleportEnabled == true do
-		local teleported = false
+    while teleportEnabled == true do
+        local teleported = false
 
-		for _, player in ipairs(Players:GetPlayers()) do
-			if player ~= localPlayer and player.Team and table.find(checkedTeams, player.Team.Name) then
-				if player.Character and player.Character.PrimaryPart then
-					if currentWeld then
-						currentWeld:Destroy()
-						currentWeld = nil
-					end
+        for _, player in ipairs(Players:GetPlayers()) do
+            if player ~= localPlayer and player.Team and table.find(checkedTeams, player.Team.Name) then
+                if player.Character and player.Character.PrimaryPart and player.Character:FindFirstChild("Humanoid") then
+                    local humanoid = player.Character.Humanoid
+                    -- Check if the player's health is greater than 0
+                    if humanoid.Health > 0 then
+                        if currentWeld then
+                            currentWeld:Destroy()
+                            currentWeld = nil
+                        end
 
-					local targetPart = player.Character.PrimaryPart
-					local offset = CFrame.new(-1, -1, 2)
-					primaryPart.CFrame = targetPart.CFrame * offset
+                        local targetPart = player.Character.PrimaryPart
+                        -- Adjust the offset to place the player a bit to the left (e.g., -3 on the X axis)
+                        local offset = CFrame.new(-3, -1, 2)  -- Change -3 to a value that suits your needs
 
-					currentWeld = Instance.new("WeldConstraint")
-					currentWeld.Part0 = primaryPart
-					currentWeld.Part1 = targetPart
-					currentWeld.Parent = primaryPart
+                        primaryPart.CFrame = targetPart.CFrame * offset
 
-					wait(3)
-					teleported = true
-				end
-			end
-		end
+                        currentWeld = Instance.new("WeldConstraint")
+                        currentWeld.Part0 = primaryPart
+                        currentWeld.Part1 = targetPart
+                        currentWeld.Parent = primaryPart
 
-		if not teleported then break end
-	end
+                        wait(3)
+                        teleported = true
+                    end
+                end
+            end
+        end
 
-	if currentWeld then
-		currentWeld:Destroy()
-	end
+        if not teleported then break end
+    end
+
+    if currentWeld then
+        currentWeld:Destroy()
+    end
 end
+
+--END LOOP
+
 
 teleportButton.MouseButton1Click:Connect(function()
 	if teleportEnabled then
